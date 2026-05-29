@@ -26,9 +26,13 @@ if (process.env.NODE_ENV === 'production') {
   // Set static folder to the client build directory
   app.use(express.static(path.join(__dirname, '../client/build')));
 
-  // FIX: Using a Regex literal ( /^\/(?!api).*$/ ) tells Express:
-  // "Match everything EXCEPT paths that start with /api"
-  app.get(/^\/(?!api).*$/, (req, res) => {
+  // Wildcard fallback placed AFTER all API routes
+  app.get('*', (req, res) => {
+    // If it's an API route that somehow bypassed, let it pass or 404 cleanly
+    if (req.path.startsWith('/api/')) {
+      return res.status(404).json({ message: "API route not found" });
+    }
+    // Otherwise, serve the React Frontend
     res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'));
   });
 }

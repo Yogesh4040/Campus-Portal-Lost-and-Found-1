@@ -26,8 +26,9 @@ if (process.env.NODE_ENV === 'production') {
   // Set static folder to the client build directory
   app.use(express.static(path.join(__dirname, '../client/build')));
 
-  // Any request that doesn't match an API route redirects to index.html
-  app.get('/*', (req, res) => {
+  // FIX: Using a Regex literal ( /^\/(?!api).*$/ ) tells Express:
+  // "Match everything EXCEPT paths that start with /api"
+  app.get(/^\/(?!api).*$/, (req, res) => {
     res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'));
   });
 }

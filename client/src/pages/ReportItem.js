@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'ajax';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -52,6 +53,7 @@ const ReportItem = () => {
 
         try {
             const token = localStorage.getItem('token');
+            // This is perfect! The endpoint is already using a relative production-safe route.
             await axios.post('/api/items/add', formData, {
                 headers: { 
                     'Content-Type': 'multipart/form-data',
@@ -196,7 +198,7 @@ const contentStyle = {
 };
 
 const formCard = { 
-    backgroundColor: '#ffffff', // Consistent white card
+    backgroundColor: '#ffffff', 
     padding: '40px', 
     borderRadius: '20px', 
     width: '100%', 
@@ -249,7 +251,8 @@ const submitBtn = {
     fontSize: '16px', 
     fontWeight: '800', 
     cursor: 'pointer',
-    transition: 'transform 0.1s active'
+    /* ✅ FIXED: Cleaned up incorrect 'active' keyword inside transition */
+    transition: 'transform 0.1s' 
 };
 
 const cancelBtn = { 

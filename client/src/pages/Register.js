@@ -18,7 +18,8 @@ const Register = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            await axios.post('api/auth/register', formData);
+            // ✅ FIXED: Added leading slash to ensure correct base endpoint routing in production
+            await axios.post('/api/auth/register', formData);
             showToast("✅ Registration Successful! Redirecting...");
             setTimeout(() => navigate('/login'), 2000);
         } catch (err) {

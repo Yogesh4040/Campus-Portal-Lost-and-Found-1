@@ -2,7 +2,7 @@ require('dotenv').config(); // MUST BE LINE 1
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const path = require('path'); // Fixed: Cleanly grouped at the top
+const path = require('path'); // Cleanly grouped at the top
 
 // 1. Import all routes
 const authRoutes = require('./routes/authRoutes');
@@ -14,7 +14,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Fixed: Made the uploads folder use an absolute path so images load on Render
+// Absolute path configuration ensures uploaded item images serve correctly on Render hosting environments
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // 2. Use the routes
@@ -26,14 +26,14 @@ if (process.env.NODE_ENV === 'production') {
   // 1. Serve the compiled static frontend build files
   app.use(express.static(path.join(__dirname, '../client/build')));
 
-  // 2. Use a custom middleware function to handle fallback routing cleanly
+  // 2. Custom middleware function handling frontend single-page application fallback routing cleanly
   app.use((req, res, next) => {
-    // If a request accidentally slips through to a missing /api route, send a 404
+    // If a request accidentally slips through to a missing /api route, send a explicit 404 JSON response
     if (req.url.startsWith('/api/')) {
       return res.status(404).json({ error: "API endpoint not found" });
     }
     
-    // For all regular UI navigation routes, serve your React frontend app
+    // For all regular UI navigation routes, serve your compiled React frontend app core index layout
     res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'));
   });
 }

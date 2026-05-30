@@ -77,7 +77,8 @@ const Dashboard = () => {
                     {filteredItems.length > 0 ? filteredItems.map(item => (
                         <div key={item._id} style={itemCard}>
                             {item.image ? (
-                                <img src={`http://localhost:5000/uploads/${item.image}`} alt={item.title} style={imageStyle} />
+                                /* ✅ FIXED: Removed http://localhost:5000 to use secure relative production paths */
+                                <img src={`/uploads/${item.image}`} alt={item.title} style={imageStyle} />
                             ) : (
                                 <div style={noImageStyle}>No Image</div>
                             )}

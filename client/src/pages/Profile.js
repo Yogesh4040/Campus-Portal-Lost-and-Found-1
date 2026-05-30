@@ -26,7 +26,8 @@ const Profile = () => {
         }
 
         try {
-            const res = await axios.get('http://localhost:5000/api/auth/profile', {
+            // ✅ FIXED: Changed from 'http://localhost:5000/api/auth/profile' to a relative route
+            const res = await axios.get('/api/auth/profile', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setUser(res.data.user);
@@ -42,7 +43,8 @@ const Profile = () => {
     const resolveItem = async (itemId) => {
         try {
             const token = localStorage.getItem('token');
-            await axios.patch(`http://localhost:5000/api/items/${itemId}/resolve`, {}, {
+            // ✅ FIXED: Changed from `http://localhost:5000/api/items/${itemId}/resolve` to a relative route
+            await axios.patch(`/api/items/${itemId}/resolve`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
